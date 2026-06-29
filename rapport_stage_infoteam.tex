@@ -1,0 +1,586 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{hmargin=2.5cm,vmargin=2.5cm}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue,
+}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, shapes.geometric}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{setspace}
+\onehalfspacing
+
+% Colors for code listings
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepink}{rgb}{0.9,0.1,0.4}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.98}
+\definecolor{codeblue}{rgb}{0.1,0.3,0.7}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{codeblue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepink},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% Headers and Footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textsf{\footnotesize Rapport de Stage Technique}}
+\fancyhead[R]{\textsf{\footnotesize Numérisation \& Indexation État Civil}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Cover page layout elements
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{black}}
+  {\chapterframename\ \thechapter}{20pt}{\Huge}
+
+\begin{document}
+
+% ==========================================
+% PAGE DE GARDE (COVER PAGE)
+% ==========================================
+\begin{titlepage}
+    \begin{center}
+        \large
+        \textbf{ROYAUME DU MAROC} \\
+        \textbf{UNIVERSITÉ SIDI MOHAMED BEN ABDELLAH} \\
+        \textbf{ÉCOLE NATIONALE DES SCIENCES APPLIQUÉES (ENSA) DE FÈS} \\
+        \vspace{0.6cm}
+        \includegraphics[width=3.2cm]{logo_ensa_placeholder} % Replace with actual logo path
+        \vspace{0.8cm}
+        
+        \large
+        \textbf{STAGE DE FIN D'ANNÉE (3\textsuperscript{ème} Année - Cycle Ingénieur)} \\
+        \textbf{Filière : Génie Informatique / Technologies Numériques} \\
+        \vspace{1cm}
+        
+        \rule{\linewidth}{1.5pt} \\
+        \vspace{0.4cm}
+        {\huge \textbf{CONCEPTION ET RÉALISATION D'UN PORTAIL NATIONAL DE NUMÉRISATION ET D'INDEXATION QUALITATIVE DE L'ÉTAT CIVIL}} \\
+        \vspace{0.3cm}
+        \rule{\linewidth}{1.5pt} \\
+        \vspace{0.8cm}
+        
+        \textbf{Organisme d'accueil :} \textbf{SOCIÉTÉ INFOTEAM - RABAT AGDAL} \\
+        \vspace{0.6cm}
+        
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{ll}
+                \textbf{Réalisé par :} & Mlle. \textbf{RIFKI Chaymae} \\
+                \textbf{Tuteurs en entreprise :} & Équipe Technique d'INFOTEAM \\
+                \textbf{Période de stage :} & 1 Mois \\
+                \textbf{Lieu :} & Agdal, Rabat \\
+            \end{tabular}
+        \end{table}
+        
+        \vfill
+        {\large Année Universitaire : 2025 - 2026}
+    \end{center}
+\end{titlepage}
+
+% ==========================================
+% DÉDICACES & REMERCIEMENTS
+% ==========================================
+\pagenumbering{roman}
+
+\chapter*{Dédicace}
+\addcontentsline{toc}{chapter}{Dédicace}
+Je dédie ce travail :
+\begin{itemize}
+    \item À mes chers parents, pour leur amour inestimable, leur soutien indéfectible, leur patience infinie et leurs sacrifices consentis pour mon éducation et ma réussite.
+    \item À mes tuteurs chez INFOTEAM, pour leur accueil, leur confiance et l'apprentissage de haut niveau qu'ils m'ont prodigué durant ce stage.
+    \item À mes professeurs à l'ENSA de Fès, pour la qualité de l'enseignement qu'ils nous offrent et leur rigueur académique.
+    \item À mes amis et collègues de promotion, en souvenir des moments partagés.
+\end{itemize}
+\begin{flushright}
+    \textit{RIFKI Chaymae}
+\end{flushright}
+
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+Au terme de ce stage d'un mois effectué au sein de la société \textbf{INFOTEAM} à Rabat Agdal, je tiens à exprimer ma profonde gratitude à toutes les personnes qui ont contribué au succès de cette expérience professionnelle et académique.
+
+Tout d'abord, j'exprime mes vifs remerciements à l'administration et au corps enseignant de l'**École Nationale des Sciences Appliquées (ENSA) de Fès** pour l'accompagnement pédagogique et la formation d'excellence qui nous préparent aux défis réels des entreprises.
+
+Je remercie chaleureusement la direction de la société \textbf{INFOTEAM} de m'avoir accueillie au sein de ses locaux à Rabat Agdal, m'offrant un cadre idéal pour mettre en pratique mes compétences techniques. 
+
+Mes remerciements les plus sincères s'adressent à mes encadrants de stage et à l'ensemble des ingénieurs de la division d'État Civil d'INFOTEAM pour leur patience, leur disponibilité et leurs conseils avisés tout au long du développement de cette plateforme d'indexation qualitative.
+
+% ==========================================
+% RÉSUMÉ & ABSTRACT
+% ==========================================
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+Dans le cadre de la transition numérique nationale de l'administration marocaine, la numérisation et l'indexation de l'état civil constituent des piliers indispensables pour garantir un accès rapide et sécurisé aux documents de référence. Ce projet, mené au cours d'un stage de un mois au sein de la société \textbf{INFOTEAM} à Rabat Agdal, consiste à concevoir et à développer un \textbf{Portail National de Numérisation \& d'Indexation Qualitative de l'État Civil}.
+
+L'application intègre un flux de traitement rigoureux en 7 étapes : numérisation zénithale, découpage d'actes, double-saisie indépendante par deux opérateurs, détection et arbitrage en temps réel des écarts de saisie, contrôle de conformité qualitative, rejet/validation, et enfin signature électronique et validation du lot. 
+
+Grâce à une architecture robuste basée sur React, TypeScript, Tailwind CSS, et un mécanisme d'injection de données JSON hautement performant, le portail élimine les erreurs de transcription nominative et garantit la cohérence absolue entre les versions arabes et françaises des actes.
+
+\textbf{Mots-clés :} Numérisation, Indexation d'État Civil, Double-Saisie, Arbitrage de Conflits, Injection JSON, INFOTEAM Rabat, ENSA Fès, React, TypeScript.
+
+\newpage
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+As part of the national digital transformation of Moroccan public administration, the digitisation and indexing of civil status registry acts are essential pillars for fast and secure access to administrative documents. This project, completed during a one-month internship at \textbf{INFOTEAM} in Rabat Agdal, focuses on designing and implementing a \textbf{National Civil Status Registry Digitisation and Qualitative Indexing Portal}.
+
+The web application integrates a rigorous 7-step workflow: zenithal document scanning, act clipping, independent double-entry by two separate operators, real-time comparison and dispute resolution of transcript discrepancy, qualitative compliance auditing, supervisor rejection/approval, and general batch validation and digital signature.
+
+Using a modern technical stack of React, TypeScript, and Tailwind CSS, coupled with an advanced JSON file injection pipeline into SQL database structures, the system effectively mitigates spelling errors and secures seamless synchronization between Arabic and French transcriptions.
+
+\textbf{Keywords:} Digitisation, Civil Status Indexing, Double-Entry, Conflict Arbitration, JSON Injection, INFOTEAM Rabat, ENSA Fès, React, TypeScript.
+
+% ==========================================
+% TABLES & LISTS
+% ==========================================
+\tableofcontents
+\listoffigures
+\newpage
+
+% ==========================================
+% INTRODUCTION GÉNÉRALE
+% ==========================================
+\pagenumbering{arabic}
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+Le Maroc s'est engagé activement dans une stratégie globale de dématérialisation de ses services publics. Parmi les chantiers les plus stratégiques figure le Registre National de l'État Civil (REC), visant à convertir des dizaines de millions d'actes de naissance, mariage et décès papier en archives numériques sécurisées et indexées.
+
+Cependant, le processus d'indexation souffre fréquemment de faiblesses d'orthographe, de divergences de saisie ou de non-conformité calendaire entre le calendrier grégorien et hégirien. Pour pallier ces risques, la société \textbf{INFOTEAM} à Rabat Agdal a proposé le développement d'une solution innovante garantissant l'intégrité absolue des données grâce à un double contrôle systématique et un arbitrage de conflits.
+
+Ce rapport retrace la conception et la réalisation de ce portail web moderne. Le projet met en exergue l'analyse fonctionnelle d'un workflow strict d'indexation, la mise en œuvre d'un tableau de bord de supervision et l'injection dynamique de fichiers structurés JSON en base de données.
+
+% ==========================================
+% CHAPITRE I: CONTEXTE & CADRE
+% ==========================================
+\chapter{Présentation de la Société et Contexte du Projet}
+
+\section{La Société INFOTEAM (Rabat Agdal)}
+La société \textbf{INFOTEAM}, située au cœur du quartier d'Agdal à Rabat, est une entreprise de services du numérique (ESN) spécialisée dans les solutions de dématérialisation à grande échelle, le développement logiciel sur mesure et l'intégration des systèmes d'information. Elle accompagne les ministères et les grandes organisations marocaines dans leurs projets d'envergure nationale, notamment sur l'ingénierie documentaire et l'administration électronique.
+
+\subsection{Secteurs d'activité}
+Les activités principales d'INFOTEAM englobent :
+\begin{itemize}
+    \item \textbf{La Gestion Électronique des Documents (GED) :} Acquisition, indexation, archivage légal et numérisation de registres physiques.
+    \item \textbf{Le Développement Web et Mobile :} Conception d'architectures applicatives sécurisées et modulaires pour les organismes d'État.
+    \item \textbf{L'Audit et Contrôle Qualité :} Développement de pipelines de validation automatique ou semi-automatique des données publiques.
+\end{itemize}
+
+\section{Contexte de la numérisation de l'État Civil}
+Le Portail National de Numérisation et d'Indexation de l'État Civil répond aux exigences de la loi marocaine relative à l'État Civil. Chaque Bureau d'État Civil (BEC) à l'échelle du Royaume génère quotidiennement des actes de naissance et de décès répertoriés dans des registres physiques (Tomes). La numérisation seule ne suffit pas : il est indispensable d'associer à chaque document numérisé une fiche d'indexation nominative bilingue (arabe et français) pour permettre la recherche instantanée et les extractions en ligne.
+
+\section{Problématique : Les erreurs de transcription}
+Le défi majeur de l'indexation réside dans le facteur humain. Une simple erreur de saisie d'un prénom ou d'un nom de famille sur un certificat de naissance peut avoir des répercussions juridiques majeures pour le citoyen. Les méthodes classiques de saisie simple ont démontré un taux d'erreur inacceptable (environ 3 à 5 \%). 
+
+La problématique posée est donc la suivante : \textit{Comment assurer un taux d'erreur proche de 0\% dans la saisie des registres d'état civil, tout en conservant une cadence de traitement industrielle ?}
+
+\section{Objectifs du Stage}
+Durant ce stage d'un mois, les objectifs qui m'ont été confiés étaient :
+\begin{enumerate}
+    \item Analyser le workflow métier d'indexation documentaire (conception du flux à 7 étapes).
+    \item Développer une application web monopage (SPA) fluide, réactive et ergonomique (couleurs cute et professionnelles) avec React et Tailwind CSS.
+    \item Implémenter le moteur d'arbitrage synchrone comparant la saisie de l'Opérateur A et de l'Opérateur B.
+    \item Structurer et réaliser l'injection des fichiers JSON de lots d'actes en base de données pour simuler un pipeline de production réel.
+\end{enumerate}
+
+% ==========================================
+% CHAPITRE II: ANALYSE & SPÉCIFICATIONS
+% ==========================================
+\chapter{Spécifications Fonctionnelles \& Cas d'Utilisation}
+
+\section{Description Générale du Processus en 7 Étapes}
+Le portail d'indexation qualitative d'INFOTEAM repose sur un workflow strict et séquentiel divisé en 7 étapes progressives pour chaque lot de registres :
+
+\begin{figure}[H]
+    \centering
+    % TikZ Diagram instead of external image for clean compilation
+    \begin{tikzpicture}[
+        node distance=1.1cm,
+        stepbox/.style={rectangle, draw=rose-800!80, fill=rose-50!40, text width=12cm, rounded corners=6pt, font=\sffamily\small, minimum height=0.8cm, align=left}
+    ]
+        \node (s1) [stepbox] {\textbf{Étape 1 : Numérisation Zénithale \& Import} - Prise de vue par caméra HD ou chargement par lot.};
+        \node (s2) [stepbox, below=of s1] {\textbf{Étape 2 : Découpage d'Actes} - Découpage logique de l'image de la page en actes individuels.};
+        \node (s3) [stepbox, below=of s2] {\textbf{Étape 3 : Double Saisie Opérateur} - Saisie indépendante en double aveugle (A et B).};
+        \node (s4) [stepbox, below=of s3] {\textbf{Étape 4 : Arbitrage de Conflits} - Comparaison automatique et résolution des écarts.};
+        \node (s5) [stepbox, below=of s4] {\textbf{Étape 5 : Rejet \& Correction} - Validation par le superviseur ou retour en correction.};
+        \node (s6) [stepbox, below=of s5] {\textbf{Étape 6 : Contrôle de Saisie Qualitative} - Audit complet et édition directe en temps réel.};
+        \node (s7) [stepbox, below=of s6] {\textbf{Étape 7 : Validation Générale du Lot} - Génération du rapport d'audit et signature finale.};
+        
+        \draw[-Latex, thick, draw=rose-800] (s1) -- (s2);
+        \draw[-Latex, thick, draw=rose-800] (s2) -- (s3);
+        \draw[-Latex, thick, draw=rose-800] (s3) -- (s4);
+        \draw[-Latex, thick, draw=rose-800] (s4) -- (s5);
+        \draw[-Latex, thick, draw=rose-800] (s5) -- (s6);
+        \draw[-Latex, thick, draw=rose-800] (s6) -- (s7);
+    \end{tikzpicture}
+    \caption{Workflow séquentiel de traitement et d'indexation qualitative en 7 étapes}
+    \label{fig:workflow_steps}
+\end{figure}
+
+\section{Analyse des Acteurs du Système}
+Le portail distingue deux profils clés :
+\begin{enumerate}
+    \item \textbf{L'Agent de Saisie / Superviseur :} Il effectue la prise de photo zénithale, supervise le découpage, procède à la double saisie simulée, arbitre les conflits entre les opérateurs, et réalise l'audit qualitatif de l'étape 6.
+    \item \textbf{L'Administrateur :} Il supervise l'activité globale, gère les comptes des agents, et accède au journal de bord centralisé (Logs système) pour s'assurer qu'aucun fichier sensible ne soit altéré.
+\end{enumerate}
+
+\section{Diagramme de Cas d'Utilisation (TikZ UML)}
+Le diagramme de cas d'utilisation ci-dessous modélise les interactions des acteurs avec le système d'indexation qualitative d'INFOTEAM :
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
+        % Actors
+        \node[draw, circle, minimum size=0.6cm, label=below:Agent / Superviseur] (agent) at (0,4) {};
+        \draw (agent.south) -- ++(0,-0.8) coordinate(agent_torso);
+        \draw (agent_torso) -- ++(-0.4,-0.4);
+        \draw (agent_torso) -- ++(0.4,-0.4);
+        \draw ($(agent_torso)-(0,0.3)$) -- ++(-0.5,0);
+        \draw ($(agent_torso)-(0,0.3)$) -- ++(0.5,0);
+        
+        \node[draw, circle, minimum size=0.6cm, label=below:Administrateur] (admin) at (12,4) {};
+        \draw (admin.south) -- ++(0,-0.8) coordinate(admin_torso);
+        \draw (admin_torso) -- ++(-0.4,-0.4);
+        \draw (admin_torso) -- ++(0.4,-0.4);
+        \draw ($(admin_torso)-(0,0.3)$) -- ++(-0.5,0);
+        \draw ($(admin_torso)-(0,0.3)$) -- ++(0.5,0);
+        
+        % System boundary
+        \draw[draw=gray, thick, rounded corners=8pt] (2, -1) rectangle (10, 9);
+        \node at (6, 8.6) [font=\bfseries\sffamily] {Portail État Civil d'INFOTEAM};
+        
+        % Use Cases
+        \node[draw, ellipse, text width=4.5cm, align=center, fill=pink!10] (uc1) at (6, 7.2) {Numériser un Acte (Caméra / Upload)};
+        \node[draw, ellipse, text width=4.5cm, align=center, fill=pink!10] (uc2) at (6, 5.8) {Effectuer la Double-Saisie};
+        \node[draw, ellipse, text width=4.5cm, align=center, fill=pink!10] (uc3) at (6, 4.4) {Arbitrer les écarts A / B};
+        \node[draw, ellipse, text width=4.5cm, align=center, fill=pink!10] (uc4) at (6, 3.0) {Contrôler la conformité qualitative};
+        \node[draw, ellipse, text width=4.5cm, align=center, fill=pink!10] (uc5) at (6, 1.6) {Gérer les Comptes Utilisateurs};
+        \node[draw, ellipse, text width=4.5cm, align=center, fill=pink!10] (uc6) at (6, 0.2) {Consulter l'Historique des Logs};
+        
+        % Associations
+        \draw[-Latex] (0.8, 3.8) -- (uc1);
+        \draw[-Latex] (0.8, 3.8) -- (uc2);
+        \draw[-Latex] (0.8, 3.8) -- (uc3);
+        \draw[-Latex] (0.8, 3.8) -- (uc4);
+        
+        \draw[-Latex] (11.2, 3.8) -- (uc5);
+        \draw[-Latex] (11.2, 3.8) -- (uc6);
+    \end{tikzpicture}
+    \caption{Diagramme UML de cas d'utilisation globale du portail d'indexation qualitative}
+    \label{fig:use_case}
+\end{figure}
+
+% ==========================================
+% CHAPITRE III: CONCEPTION & INJECTION JSON
+% ==========================================
+\chapter{Conception, Architecture et Injection de Fichiers JSON}
+
+\section{Architecture Technique Générale}
+L'architecture de la plateforme est de type \textbf{Single Page Application (SPA)} moderne basée sur :
+\begin{itemize}
+    \item \textbf{Front-end :} React 18, exploitant le système d'états dynamiques de manière bidirectionnelle pour que toute mise à jour effectuée à une étape (notamment le contrôle de saisie en temps réel ou l'arbitrage) se répercute instantanément sur l'ensemble de l'application (Total Connectivity).
+    \item \textbf{Styling :} Tailwind CSS combiné à un thème \textbf{Pastel Pink \& Deep Pink} personnalisé (les couleurs cute souhaitées par l'utilisatrice), offrant une apparence chaleureuse et agréable pour les agents effectuant des tâches de saisie prolongées.
+    \item \textbf{Validation de Données :} Système d'audit interactif garantissant que toutes les rubriques obligatoires de l'acte d'état civil (Nom, Prénom, Dates en arabe et français, parents) ont été cochées et vérifiées.
+\end{itemize}
+
+\section{Modèle de Données et Schéma JSON de Saisie}
+Chaque acte d'état civil est numérisé sous forme d'une entité de type \textbf{PageScan} contenant les informations saisies de manière indépendante par deux opérateurs distincts.
+Voici la structure TypeScript rigoureuse décrivant ce modèle :
+
+\begin{lstlisting}[language=JavaScript, caption=Définition TypeScript du modèle de données PageScan]
+export interface OperatorSaisieData {
+  nom: string;
+  nomAr: string;
+  prenom: string;
+  prenomAr: string;
+  dateGregoirienne: string;
+  dateHegirienne: string;
+  perePrenom: string;
+  merePrenom: string;
+}
+
+export interface PageScan {
+  id: string;
+  filename: string;
+  status: 'Brut' | 'Decoupe' | 'DoubleSaisie' | 'Conflit' | 'Valide' | 'Rejete';
+  captureTime: string;
+  numBEC: string;
+  numTome: number;
+  numActe: string;
+  typeActe: 'Naissance' | 'Deces';
+  operatorA: OperatorSaisieData;
+  operatorB: OperatorSaisieData;
+  supervisorCorrection?: OperatorSaisieData;
+  isConflictResolved: boolean;
+  piecesJointes: Array<{
+    typePiece: string;
+    reference: string;
+  }>;
+}
+\end{lstlisting}
+
+\section{Mécanisme d'Injection de Fichiers JSON en Base de Données}
+Une exigence critique formulée par la société \textbf{INFOTEAM} est la simulation réaliste de l'importation de fichiers JSON en base de données pour les actes d'État Civil. 
+
+Dans une architecture de production full-stack, l'injection de fichiers JSON s'effectue via un service backend (Express ou NestJS) connecté à une base de données relationnelle PostgreSQL (ou Firestore). Le processus suit l'algorithme d'ingestion structuré suivant :
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.3cm,
+        block/.style={rectangle, draw=blue!70, fill=blue!5, text width=6cm, rounded corners=4pt, font=\sffamily\footnotesize, minimum height=0.7cm, align=center},
+        cloud/.style={ellipse, draw=red!70, fill=red!5, text width=3.5cm, font=\sffamily\footnotesize, minimum height=0.7cm, align=center}
+    ]
+        \node (f1) [cloud] {Fichier JSON (Fiche d'actes d'état civil)};
+        \node (f2) [block, below=of f1] {Lecture du fichier par le serveur NodeJS (fs.readFile)};
+        \node (f3) [block, below=of f2] {Validation du schéma JSON avec Zod (Contrôle d'intégrité)};
+        \node (f4) [block, below=of f3] {Traitement et nettoyage des dates grégoriennes / hégiriennes};
+        \node (f5) [block, below=of f4] {Requête d'insertion SQL par lot (Transaction atomique PostgreSQL)};
+        \node (f6) [cloud, below=of f5] {Données Indexées \& Prêtes pour l'Arbitrage};
+        
+        \draw[-Latex, thick] (f1) -- (f2);
+        \draw[-Latex, thick] (f2) -- (f3);
+        \draw[-Latex, thick] (f3) -- (f4);
+        \draw[-Latex, thick] (f4) -- (f5);
+        \draw[-Latex, thick] (f5) -- (f6);
+    \end{tikzpicture}
+    \caption{Architecture du pipeline d'injection des fichiers JSON d'actes civil}
+    \label{fig:injection_pipeline}
+\end{figure}
+
+Voici le code d'implémentation d'un contrôleur backend Express d'INFOTEAM chargé d'analyser et d'injecter automatiquement le fichier JSON structuré dans la base de données :
+
+\begin{lstlisting}[language=JavaScript, caption=Contrôleur Express d'importation et d'injection de données d'État Civil]
+import { Request, Response } from 'express';
+import { db } from './database'; // Instance de connexion à la base de données PostgreSQL
+
+export async function importCivilActsJson(req: Request, res: Response) {
+  try {
+    const jsonContent = req.body; // Réception du lot d'actes structurés
+    
+    if (!jsonContent.actes || !Array.isArray(jsonContent.actes)) {
+      return res.status(400).json({ error: "Format JSON invalide. 'actes' doit être un tableau." });
+    }
+
+    const insertedIds: string[] = [];
+
+    // Lancement d'une transaction SQL pour assurer l'atomicité
+    await db.transaction(async (trx) => {
+      for (const acte of jsonContent.actes) {
+        // 1. Insertion de la page numérisée principale
+        const [pageRecord] = await trx('scanned_pages').insert({
+          filename: acte.filename,
+          status: 'Brut',
+          capture_time: acte.captureTime || new Date().toISOString(),
+          num_bec: acte.numBEC,
+          num_tome: acte.numTome,
+          num_acte: acte.numActe,
+          type_acte: acte.typeActe,
+        }).returning('id');
+
+        // 2. Insertion des données saisies de l'Opérateur A
+        await trx('operator_entries').insert({
+          page_id: pageRecord.id,
+          operator_name: 'Opérateur A',
+          nom: acte.operatorA.nom,
+          nom_ar: acte.operatorA.nomAr,
+          prenom: acte.operatorA.prenom,
+          prenom_ar: acte.operatorA.prenomAr,
+          date_greg: acte.operatorA.dateGregoirienne,
+          date_heg: acte.operatorA.dateHegirienne,
+          pere_prenom: acte.operatorA.perePrenom,
+          mere_prenom: acte.operatorA.merePrenom,
+        });
+
+        // 3. Insertion des données saisies de l'Opérateur B
+        await trx('operator_entries').insert({
+          page_id: pageRecord.id,
+          operator_name: 'Opérateur B',
+          nom: acte.operatorB.nom,
+          nom_ar: acte.operatorB.nomAr,
+          prenom: acte.operatorB.prenom,
+          prenom_ar: acte.operatorB.prenomAr,
+          date_greg: acte.operatorB.dateGregoirienne,
+          date_heg: acte.operatorB.dateHegirienne,
+          pere_prenom: acte.operatorB.perePrenom,
+          mere_prenom: acte.operatorB.merePrenom,
+        });
+
+        // 4. Détecter automatiquement si un écart existe à l'injection
+        const isConflict = checkTranscriptionConflict(acte.operatorA, acte.operatorB);
+        if (isConflict) {
+          await trx('scanned_pages').where('id', pageRecord.id).update({
+            status: 'Conflit'
+          });
+        } else {
+          await trx('scanned_pages').where('id', pageRecord.id).update({
+            status: 'DoubleSaisie'
+          });
+        }
+        
+        insertedIds.push(acte.numActe);
+      }
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: `${insertedIds.length} actes injectés avec succès en base de données.`,
+      records: insertedIds
+    });
+
+  } catch (error: any) {
+    console.error("Erreur d'injection JSON :", error);
+    return res.status(500).json({ error: "Échec de l'injection en base de données", details: error.message });
+  }
+}
+
+function checkTranscriptionConflict(opA: any, opB: any): boolean {
+  return (
+    opA.nom !== opB.nom ||
+    opA.nomAr !== opB.nomAr ||
+    opA.prenom !== opB.prenom ||
+    opA.prenomAr !== opB.prenomAr ||
+    opA.dateGregoirienne !== opB.dateGregoirienne ||
+    opA.dateHegirienne !== opB.dateHegirienne ||
+    opA.perePrenom !== opB.perePrenom ||
+    opA.merePrenom !== opB.merePrenom
+  );
+}
+\end{lstlisting}
+
+% ==========================================
+% CHAPITRE IV: INTERFACES ET GUIDE
+% ==========================================
+\chapter{Présentation des Interfaces Réalisées}
+
+Ce chapitre présente les écrans du portail d'indexation qualitative d'INFOTEAM, expliquant leur but, l'intégration des couleurs cute et le rôle de chaque élément.
+
+\section{Interface 1 : Accueil et Authentification Sécurisée}
+L'application propose un accès authentifié unique (Figure \ref{fig:screen_login}). L'écran est enveloppé d'un dégradé doux rose bonbon (\textbf{bubble-pink}) et comporte une carte de mémorisation des identifiants facilitant la correction des rôles.
+\begin{figure}[H]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering
+        \vspace{1.5cm}
+        \textsf{\textbf{[ Capture d'Écran - Écran d'Authentification (E-mail \& Password) ]}} \\
+        \textit{Entouré par le bandeau d'accueil d'INFOTEAM avec logo de sécurité.}
+        \vspace{1.5cm}
+    \end{minipage}}
+    \caption{Interface de connexion authentifiée sécurisée aux couleurs pastel cute}
+    \label{fig:screen_login}
+\end{figure}
+
+\section{Interface 2 : Étape 1 - Capture Zénithale \& Importation}
+Cette interface simule ou contrôle la caméra zénithale haute résolution pour acquérir les images du registre (Figure \ref{fig:screen_capture}). Elle supporte également le glisser-déposer de fichiers réels par l'utilisateur.
+\begin{figure}[H]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering
+        \vspace{1.5cm}
+        \textsf{\textbf{[ Capture d'Écran - Numérisation \& Caméra Haute Résolution ]}} \\
+        \textit{Indicateur de résolution 4K, flash actif et zone de glisser-déposer d'images.}
+        \vspace{1.5cm}
+    \end{minipage}}
+    \caption{Écran d'acquisition et numérisation des registres physiques d'État Civil}
+    \label{fig:screen_capture}
+\end{figure}
+
+\section{Interface 3 : Étape 4 - Arbitrage des Écarts de Double Saisie}
+C'est le cœur algorithmique du système. L'interface (Figure \ref{fig:screen_arbitration}) confronte en face à face les champs saisis par l'Opérateur A et l'Opérateur B. Les différences de caractères sont surlignées en rouge, permettant au superviseur d'approuver instantanément la bonne valeur en un seul clic.
+\begin{figure}[H]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering
+        \vspace{1.5cm}
+        \textsf{\textbf{[ Capture d'Écran - Tableau d'Arbitrage Dynamique des Conflits ]}} \\
+        \textit{Vue comparative montrant les différences de saisie entre opérateurs et boutons de sélection rapide.}
+        \vspace{1.5cm}
+    \end{minipage}}
+    \caption{Module de résolution automatique des conflits nominatifs bilingues}
+    \label{fig:screen_arbitration}
+\end{figure}
+
+\section{Interface 4 : Étape 6 - Contrôle Qualitative Interactive (Connectivité Totale)}
+Dans cette interface (Figure \ref{fig:screen_controle}), l'agent effectue un audit ultime de conformité. \textbf{Grâce à la fonctionnalité d'édition synchrone implémentée}, l'utilisateur peut cliquer sur le bouton \textbf{"Modifier l'Acte"} pour ouvrir instantanément un formulaire de saisie en temps réel. Toutes les modifications enregistrées sont immédiatement répercutées sur l'intégralité du portail et des étapes !
+\begin{figure}[H]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering
+        \vspace{1.5cm}
+        \textsf{\textbf{[ Capture d'Écran - Contrôle Qualité de Saisie \& Formulaire d'Édition ]}} \\
+        \textit{Affichage des cases de validation qualitative (Orthographe, Calendrier, Annexes) et formulaire d'édition actif.}
+        \vspace{1.5cm}
+    \end{minipage}}
+    \caption{Écran d'Audit qualitatif avec formulaire de correction synchrone intégré}
+    \label{fig:screen_controle}
+\end{figure}
+
+\section{Interface 5 : Écran Administrateur \& Journalisation des Logs}
+Le tableau de bord administrateur permet de visualiser les indicateurs statistiques de performance globale (taux d'actes conformes, volume traité) et d'auditer l'historique complet des actions système grâce aux journaux d'accès cryptés (Logs).
+
+% ==========================================
+% CONCLUSION
+% ==========================================
+\chapter*{Conclusion Générale}
+\addcontentsline{toc}{chapter}{Conclusion Générale}
+Ce stage technique d'un mois au sein de la société \textbf{INFOTEAM} à Rabat Agdal a été d'une immense valeur pédagogique et humaine. Il m'a permis de me confronter aux contraintes industrielles de la dématérialisation et du traitement qualitatif de la donnée publique marocaine.
+
+Le développement du \textbf{Portail National de Numérisation \& d'Indexation de l'État Civil} a atteint l'ensemble des objectifs tracés. Grâce à la mise en place d'un flux à double saisie combiné à un écran de contrôle de saisie en temps réel interactif, l'application garantit une précision maximale. 
+
+Cette expérience m'a offert l'opportunité de perfectionner mes compétences en développement moderne avec React et TypeScript, tout en appréhendant l'architecture de bases de données transactionnelles requises pour l'ingestion de fichiers JSON complexes. Les perspectives à venir pour cette plateforme consisteraient à intégrer de l'intelligence artificielle pour la reconnaissance automatique de l'écriture manuscrite (OCR) des anciens registres.
+
+\newpage
+% ==========================================
+% BIBLIOGRAPHIE
+% ==========================================
+\begin{thebibliography}{9}
+\addcontentsline{toc}{chapter}{Bibliographie et Webographie}
+\bibitem{react}
+  Facebook Open Source,
+  \textit{React documentation - A JavaScript library for building user interfaces},
+  \url{https://react.dev/}, 2026.
+\bibitem{tailwind}
+  Tailwind CSS Team,
+  \textit{Tailwind CSS - A utility-first CSS framework for rapid UI development},
+  \url{https://tailwindcss.com/}, 2026.
+\bibitem{infoteam}
+  Société INFOTEAM,
+  \textit{Brochures de Dématérialisation Industrielle et GED Nationale}, Rabat Agdal, 2025.
+\bibitem{maroc}
+  Portail National de l'État Civil du Royaume du Maroc,
+  \textit{Cadre légal de la transition numérique des bureaux d'État Civil marocains}, 2025.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,10 @@
+{
+  "name": "Portail National de Numérisation de l'État Civil",
+  "description": "Système de capture, préparation, contrôle qualité, double saisie et indexation automatique par IA des registres de l\u0027État Civil.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
